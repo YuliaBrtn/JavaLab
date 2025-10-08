@@ -31,6 +31,7 @@ public class MainFrame extends JFrame{
 // как компоненты, совместно используемые в различных методах
     private JTextField textFieldX;
     private JTextField textFieldY;
+    private JTextField textFieldZ;
 
     // Текстовое поле для отображения результата,
 // как компонент, совместно используемый в различных методах
@@ -42,12 +43,12 @@ public class MainFrame extends JFrame{
     private Box hboxFormulaType = Box.createHorizontalBox();
     private int formulaId = 1;
     // Формула №1 для рассчѐта
-    public Double calculate1(Double x, Double y) {
-        return x*x + y*y;
+    public Double calculate1(Double x, Double y, Double z) {
+        return Math.pow(Math.cos(Math.PI * x * x * x) + Math.log(Math.pow((1 + y), 2)), 0.25) * (Math.exp(z * z) + Math.sqrt(1.0 / x) + Math.cos(Math.exp(y)));
     }
     // Формула №2 для рассчѐта
-    public Double calculate2(Double x, Double y) {
-        return x*x*x + 1/y;
+    public Double calculate2(Double x, Double y, Double z) {
+        return Math.exp(0.5 * x) / Math.sqrt(z + y) * Math.pow(Math.log(x * x),z);
     }
     // Вспомогательный метод для добавления кнопок на панель
     private void addRadioButton(String buttonName, final int formulaId) {
