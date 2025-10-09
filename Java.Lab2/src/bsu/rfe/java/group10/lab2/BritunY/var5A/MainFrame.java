@@ -26,6 +26,7 @@ public class MainFrame extends JFrame{
     // Размеры окна приложения в виде констант
     private static final int WIDTH = 400;
     private static final int HEIGHT = 320;
+    private Double sum = 0.0;
 
     // Текстовые поля для считывания значений переменных,
 // как компоненты, совместно используемые в различных методах
@@ -151,10 +152,43 @@ public class MainFrame extends JFrame{
             }
         });
 
+        JButton buttonMC = new JButton("MC");
+        JButton buttonMPlus = new JButton("M+");
+
+        buttonMC.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                sum = 0.0;
+                textFieldResult.setText("0");
+            }
+        });
+
+        buttonMPlus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                try {
+                    Double current = Double.parseDouble(textFieldResult.getText());
+                    sum += current;
+                    textFieldResult.setText(sum.toString());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(MainFrame.this,
+                            "Невозможно суммировать: " + e.getMessage(),
+                            "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         Box hboxButtons = Box.createHorizontalBox();
+        hboxButtons.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        hboxButtons.add(Box.createHorizontalStrut(10));
+        hboxButtons.add(buttonMC);
+        hboxButtons.add(Box.createHorizontalStrut(10));
+        hboxButtons.add(buttonMPlus);
+        hboxButtons.add(Box.createHorizontalGlue());
+
+        hboxButtons.add(Box.createHorizontalStrut(20));
+
         hboxButtons.add(Box.createHorizontalGlue());
         hboxButtons.add(buttonCalc);
-        hboxButtons.add(Box.createHorizontalStrut(30));
+        hboxButtons.add(Box.createHorizontalStrut(20));
         hboxButtons.add(buttonReset);
         hboxButtons.add(Box.createHorizontalGlue());
         hboxButtons.setBorder(
