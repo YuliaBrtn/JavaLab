@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 public class MainFrame extends JFrame{
 
     // Размеры окна приложения в виде констант
-    private static final int WIDTH = 400;
+    private static final int WIDTH = 420;
     private static final int HEIGHT = 320;
     private Double sum = 0.0;
 
