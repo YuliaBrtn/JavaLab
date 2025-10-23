@@ -43,6 +43,11 @@ public class GornerTableCellRenderer implements TableCellRenderer {
             } else {
                 panel.setBackground(Color.WHITE);
             }
+        } else if (value instanceof Boolean) {
+            // для Boolean значений (третий столбец) просто отображаем как текст
+            // JTable автоматически отобразит флажок из-за указанного Boolean.class
+            label.setText(value.toString());
+            panel.setBackground(Color.WHITE);
         } else {
             label.setText(value.toString());
             panel.setBackground(Color.WHITE);
