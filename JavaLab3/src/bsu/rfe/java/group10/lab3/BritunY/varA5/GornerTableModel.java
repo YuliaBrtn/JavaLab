@@ -64,18 +64,14 @@ public class GornerTableModel extends AbstractTableModel {
         return switch (col) {
             case 0 -> x;
             case 1 -> result;
-            case 2 ->{
-                double fractionalPart = Math.abs(result - (int)result);
-                if (fractionalPart == 0) yield false; // если дробная часть равна 0
-                // Проверяем, является ли дробная часть квадратом целого числа
-                boolean isSquare = false;
-                for (int i = 0; i <= 100; i++) { // проверяем числа от 0 до 100
-                    double square = i * i * 0.01; // квадрат в формате дробной части
-                    if (Math.abs(fractionalPart - square) < 3e-10) {
-                        isSquare = true;
-                        break;
-                    }
-                }///
+            case 2 -> {
+                double fractionalPart = Math.abs(result - (long)result);
+                if (fractionalPart == 0) yield false;
+                // извлекаем корень и проверяем целое ли число
+                double root = Math.sqrt(fractionalPart);
+                // проверяем, является ли корень целым числом
+                boolean isSquare = Math.abs(root - Math.round(root)) < 1e-10;
+
                 yield isSquare;
             }
 
