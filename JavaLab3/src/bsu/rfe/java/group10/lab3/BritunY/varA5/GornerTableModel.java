@@ -1,10 +1,15 @@
 package bsu.rfe.java.group10.lab3.BritunY.varA5;
 
 import javax.swing.table.AbstractTableModel;
+//import javax.swing.table.LinkedList;
+import java.util.LinkedList;
 
 @SuppressWarnings("serial")
 public class GornerTableModel extends AbstractTableModel {
-    private final Double[] coefficients;
+    //класс хранит данные для таблицы
+    // LinkedList
+    //private final Double[] coefficients;
+    private final LinkedList<Double> coefficients;
     private final double from;
     private final double to;
     private final double step;
@@ -13,7 +18,12 @@ public class GornerTableModel extends AbstractTableModel {
         this.from = from;
         this.to = to;
         this.step = step;
-        this.coefficients = coefficients;
+        //this.coefficients = coefficients;
+        // Преобразуем массив в LinkedList
+        this.coefficients = new LinkedList<>();
+        for (Double coefficient : coefficients) {
+            this.coefficients.add(coefficient);
+        }
     }
 
     public double getFrom() {
@@ -36,14 +46,19 @@ public class GornerTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return (int) Math.ceil((to - from) / step) + 1;
-    }
+    }//вычисляем кол-во строк в таблице
 
     @Override
     public Object getValueAt(int row, int col) {
         double x = from + step * row;
-        double result = coefficients[0];
+        /* double result = coefficients[0];
         for (int i = 1; i < coefficients.length; i++) {
             result = result * x + coefficients[i];
+        }*/
+
+        double result = coefficients.get(0);
+        for (int i = 1; i < coefficients.size(); i++) {
+            result = result * x + coefficients.get(i);
         }
 
         return switch (col) {
@@ -56,11 +71,11 @@ public class GornerTableModel extends AbstractTableModel {
                 boolean isSquare = false;
                 for (int i = 0; i <= 100; i++) { // проверяем числа от 0 до 100
                     double square = i * i * 0.01; // квадрат в формате дробной части
-                    if (Math.abs(fractionalPart - square) < 1e-10) {
+                    if (Math.abs(fractionalPart - square) < 3e-10) {
                         isSquare = true;
                         break;
                     }
-                }
+                }///
                 yield isSquare;
             }
 

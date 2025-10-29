@@ -1,5 +1,7 @@
 package bsu.rfe.java.group10.lab3.BritunY.varA5;
 
+//как отображать ячейки в таблицы
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -13,8 +15,8 @@ import javax.swing.table.TableCellRenderer;
 
 public class GornerTableCellRenderer implements TableCellRenderer {
     private JPanel panel = new JPanel();
-    private JLabel label = new JLabel();
-    private String needle = null;
+    private JLabel label = new JLabel();//панель и надписи для каждой ячейки
+    private String needle = null; //что искать в таблице
     private DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance();
 
     public GornerTableCellRenderer() {
@@ -42,13 +44,10 @@ public class GornerTableCellRenderer implements TableCellRenderer {
                 panel.setBackground(Color.RED);
             } else {
                 panel.setBackground(Color.WHITE);
-            }
+            }//форматируем значение и красим в красный, если совпадает с искомым
         } else if (value instanceof Boolean) {
-            // для Boolean значений (третий столбец) просто отображаем как текст
+            // для Boolean значений просто отображаем как текст
             // JTable автоматически отобразит флажок из-за указанного Boolean.class
-            label.setText(value.toString());
-            panel.setBackground(Color.WHITE);
-        } else {
             label.setText(value.toString());
             panel.setBackground(Color.WHITE);
         }

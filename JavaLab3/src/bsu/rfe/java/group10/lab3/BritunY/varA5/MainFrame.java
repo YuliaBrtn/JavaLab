@@ -35,11 +35,12 @@ public class MainFrame extends JFrame {
 
     private Double[] coefficients;
     private JFileChooser fileChooser = null;
-
+    //окошко для выбора файлов("Сохранить")
     private JMenuItem saveToTextMenuItem;
     private JMenuItem saveToGraphicsMenuItem;
     private JMenuItem searchValueMenuItem;
 
+    //поля ввода для чисел от, до, шаг
     private JTextField textFieldFrom;
     private JTextField textFieldTo;
     private JTextField textFieldStep;
@@ -51,14 +52,15 @@ public class MainFrame extends JFrame {
     public MainFrame(Double[] coefficients) {
         super("Табулирование многочлена на отрезке по схеме Горнера");
         this.coefficients = coefficients;
-        setSize(WIDTH, HEIGHT);
+        setSize(WIDTH, HEIGHT);//запоминаем коэффициенты и устанавливаем размеры окна
         Toolkit kit = Toolkit.getDefaultToolkit();
         setLocation((kit.getScreenSize().width - WIDTH) / 2,
-                (kit.getScreenSize().height - HEIGHT) / 2);
+                (kit.getScreenSize().height - HEIGHT) / 2); //размещаем окно по центру
 
         // Меню
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
+        //создаем строку меню
 
         JMenu fileMenu = new JMenu("Файл");
         menuBar.add(fileMenu);
@@ -219,7 +221,7 @@ public class MainFrame extends JFrame {
             for (int i = 0; i < coefficients.length; i++) {
                 out.print(coefficients[i] + "*X^" + (coefficients.length - i - 1));
                 if (i != coefficients.length - 1) out.print(" + ");
-            }
+            }//записываем файл заголовок и формулу многочлена
             out.println();
             out.println("Интервал от " + data.getFrom() + " до " + data.getTo() + " с шагом " + data.getStep());
             out.println("====================================================");
@@ -234,14 +236,14 @@ public class MainFrame extends JFrame {
         if (args.length == 0) {
             System.out.println("Невозможно табулировать многочлен, для которого не задано ни одного коэффициента!");
             System.exit(-1);
-        }
+        }//проверяем, что программе передали коэффициенты
 
         Double[] coefficients = new Double[args.length];
         int i = 0;
         try {
             for (String arg : args) {
                 coefficients[i++] = Double.parseDouble(arg);
-            }
+            }//преобразуем текстовые аргументы в числа
         } catch (NumberFormatException ex) {
             System.out.println("Ошибка преобразования строки '" + args[i] + "' в число типа Double");
             System.exit(-2);
@@ -250,5 +252,5 @@ public class MainFrame extends JFrame {
         MainFrame frame = new MainFrame(coefficients);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-    }
+    }//создаем окно, настраиваем закрытие программы при закрытии окна
 }
