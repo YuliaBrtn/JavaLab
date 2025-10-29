@@ -67,9 +67,12 @@ public class GornerTableModel extends AbstractTableModel {
             case 2 -> {
                 double fractionalPart = Math.abs(result - (long)result);
                 if (fractionalPart == 0) yield false;
-                // извлекаем корень и проверяем целое ли число
-                double root = Math.sqrt(fractionalPart);
-                // проверяем, является ли корень целым числом
+
+                // Умножаем на 10000 и извлекаем корень
+                long scaled = Math.round(fractionalPart * 10000);
+                double root = Math.sqrt(scaled);
+
+                // Проверяем, целый ли корень
                 boolean isSquare = Math.abs(root - Math.round(root)) < 1e-10;
 
                 yield isSquare;
