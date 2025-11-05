@@ -45,11 +45,12 @@ public class GraphicsDisplay extends JPanel{
 
     public GraphicsDisplay() {
 // Цвет заднего фона области отображения - белый
-        setBackground(Color.PINK);
+        setBackground(Color.WHITE);
 // Сконструировать необходимые объекты, используемые в рисовании
 // Перо для рисования графика
+        float[] dashPattern = {14.0f, 7.0f, 3.0f, 7.0f, 14.0f}; // Длинная половина от длинной, половина от половины длинной...
         graphicsStroke = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_ROUND, 10.0f, null, 0.0f);
+                BasicStroke.JOIN_ROUND, 10.0f, dashPattern, 0.0f);
 // Перо для рисования осей координат
         axisStroke = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
@@ -191,29 +192,42 @@ minY
     }
     // Отображение маркеров точек, по которым рисовался график
     protected void paintMarkers(Graphics2D canvas) {
-// Шаг 1 - Установить специальное перо для черчения контуров маркеров
+        // Установить специальное перо для черчения контуров маркеров
         canvas.setStroke(markerStroke);
-// Выбрать красный цвета для контуров маркеров
-        canvas.setColor(Color.RED);
-// Выбрать красный цвет для закрашивания маркеров внутри
-        canvas.setPaint(Color.RED);
-// Шаг 2 - Организовать цикл по всем точкам графика
-        for (Double[] point: graphicsData) {
-// Инициализировать эллипс как объект для представления маркера
-            Ellipse2D.Double marker = new Ellipse2D.Double();
-/* Эллипс будет задаваться посредством указания координат
-его центра
-и угла прямоугольника, в который он вписан */
-// Центр - в точке (x,y)
+        // Выбрать синий цвет для маркеров
+        canvas.setColor(Color.BLUE);
+        canvas.setPaint(Color.BLUE);
+
+        // Размер маркера - 11x11 точек
+        double size = 11.0;
+
+        // Цикл по всем точкам графика
+        for (Double[] point : graphicsData) {
+            // Центр маркера в точке графика
             Point2D.Double center = xyToPoint(point[0], point[1]);
-// Угол прямоугольника - отстоит на расстоянии (3,3)
-            Point2D.Double corner = shiftPoint(center, 3, 3);
-// Задать эллипс по центру и диагонали
-            marker.setFrameFromCenter(center, corner);
-            canvas.draw(marker); // Начертить контур маркера
-            canvas.fill(marker); // Залить внутреннюю область маркера
+
+            // Создать перевернутый треугольник
+            GeneralPath triangle = new GeneralPath();
+
+            // Вершины перевернутого треугольника:
+            // Верхняя вершина (основание сверху)
+            Point2D.Double topLeft = new Point2D.Double(center.getX() - size/2, center.getY() - size/2);
+            Point2D.Double topRight = new Point2D.Double(center.getX() + size/2, center.getY() - size/2);
+            // Нижняя вершина (острие внизу)
+            Point2D.Double bottom = new Point2D.Double(center.getX(), center.getY() + size/2);
+
+            // Построить треугольник
+            triangle.moveTo(topLeft.getX(), topLeft.getY());
+            triangle.lineTo(topRight.getX(), topRight.getY());
+            triangle.lineTo(bottom.getX(), bottom.getY());
+            triangle.closePath(); // Замкнуть треугольник
+
+            // Нарисовать и залить маркер
+            canvas.draw(triangle);
+            canvas.fill(triangle);
         }
     }
+
     // Метод, обеспечивающий отображение осей координат
     protected void paintAxis(Graphics2D canvas) {
 // Установить особое начертание для осей
