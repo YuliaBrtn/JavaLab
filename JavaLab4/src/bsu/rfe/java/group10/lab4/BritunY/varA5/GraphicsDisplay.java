@@ -69,6 +69,18 @@ public class GraphicsDisplay extends JPanel{
         repaint();
     }
 
+    // Методы-модификаторы для изменения параметров отображения графика
+// Изменение любого параметра приводит к перерисовке области
+    public void setShowAxis(boolean showAxis) {
+        this.showAxis = showAxis;
+        repaint();
+    }
+    public void setShowMarkers(boolean showMarkers) {
+        this.showMarkers = showMarkers;
+        repaint();
+    }
+
+
     // Метод отображения всего компонента, содержащего график
     public void paintComponent(Graphics g) {
         /* Шаг 1 - Вызвать метод предка для заливки области цветом заднего фона
