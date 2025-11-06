@@ -60,7 +60,7 @@ private JFileChooser fileChooser = null;
             public void actionPerformed(ActionEvent event) {
                 try (DataOutputStream out = new DataOutputStream(new FileOutputStream("data.bin"))) {
                     for (double x = -10; x <= 10; x += 0.5) {
-                        double y = Math.cos(x);
+                        double y = 50 * Math.sin(x) + 100 * Math.cos(0.5 * x);
                         out.writeDouble(x);
                         out.writeDouble(y);
                     }

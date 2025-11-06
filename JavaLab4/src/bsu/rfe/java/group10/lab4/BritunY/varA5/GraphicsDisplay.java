@@ -48,7 +48,7 @@ public class GraphicsDisplay extends JPanel{
         setBackground(Color.WHITE);
 // Сконструировать необходимые объекты, используемые в рисовании
 // Перо для рисования графика
-        float[] dashPattern = {14.0f, 7.0f, 3.0f, 7.0f, 14.0f}; // Длинная половина от длинной, половина от половины длинной...
+        float[] dashPattern = {14.0f, 7.0f, 3.0f, 7.0f, 14.0f};
         graphicsStroke = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_ROUND, 10.0f, dashPattern, 0.0f);
 // Перо для рисования осей координат
@@ -222,10 +222,40 @@ minY
             triangle.lineTo(bottom.getX(), bottom.getY());
             triangle.closePath(); // Замкнуть треугольник
 
+            // Проверить условие: сумма цифр целой части значения функции < 10
+            double yValue = point[1]; // значение функции в точке
+            if (sumOfDigitsInIntegerPart(yValue) < 10) {
+                // Условие выполняется - выделить маркер красным цветом
+                canvas.setStroke(markerStroke);
+                canvas.setColor(Color.RED);
+                canvas.setPaint(Color.RED);
+            } else {
+                // Условие не выполняется - обычный синий цвет
+                canvas.setStroke(markerStroke);
+                canvas.setColor(Color.BLUE);
+                canvas.setPaint(Color.BLUE);
+            }
+
             // Нарисовать и залить маркер
             canvas.draw(triangle);
             canvas.fill(triangle);
         }
+    }
+
+    private int sumOfDigitsInIntegerPart(double value) {
+        // Взять целую часть числа
+        int intPart = (int) Math.abs(value); // берем модуль для отрицательных чисел
+
+        // Вычислить сумму цифр
+        int sum = 0;
+        int number = intPart;
+
+        while (number > 0) {
+            sum += number % 10; // добавить последнюю цифру
+            number /= 10;       // убрать последнюю цифру
+        }
+
+        return sum;
     }
 
     // Метод, обеспечивающий отображение осей координат
