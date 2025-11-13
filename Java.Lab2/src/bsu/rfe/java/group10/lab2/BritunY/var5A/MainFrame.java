@@ -30,7 +30,7 @@ public class MainFrame extends JFrame{
 
     // Текстовые поля для считывания значений переменных,
 // как компоненты, совместно используемые в различных методах
-    private JTextField textFieldX;
+    private final JTextField textFieldX;
     private JTextField textFieldY;
     private JTextField textFieldZ;
 
@@ -125,6 +125,7 @@ public class MainFrame extends JFrame{
         JButton buttonCalc = new JButton("Вычислить");
         buttonCalc.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
+                
                 try {
                     Double x = Double.parseDouble(textFieldX.getText());
                     Double y = Double.parseDouble(textFieldY.getText());
@@ -132,6 +133,7 @@ public class MainFrame extends JFrame{
                     Double result;
                     if (formulaId==1)
                         result = calculate1(x, y, z);
+
                     else
                         result = calculate2(x, y, z);
                     textFieldResult.setText(result.toString());

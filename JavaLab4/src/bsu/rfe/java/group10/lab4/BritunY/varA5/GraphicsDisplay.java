@@ -33,6 +33,9 @@ public class GraphicsDisplay extends JPanel{
     // Используемый масштаб отображения
     private double scale; ///
 
+    /// ///////////!!!!!
+    private double scaleX;
+    private double scaleY;
     // Различные стили черчения линий
     //BasicStroke - класс в Java, который определяет характеристики рисования линий
     private BasicStroke graphicsStroke;
@@ -66,6 +69,7 @@ public class GraphicsDisplay extends JPanel{
     public void showGraphics(Double[][] graphicsData) {
 // Сохранить массив точек во внутреннем поле класса
         this.graphicsData = graphicsData;
+
 // Запросить перерисовку компонента, т.е. неявно вызвать paintComponent()
         repaint();
     }
@@ -107,16 +111,22 @@ public class GraphicsDisplay extends JPanel{
                 maxY = graphicsData[i][1];
             }
         }
+        System.out.println("Границы графика");
+        System.out.println("minX: " + minX);
+        System.out.println("maxX: " + maxX);
+        System.out.println("minY: " + minY);
+        System.out.println("maxY: " + maxY);
+
 /* Шаг 4 - Определить (исходя из размеров окна) масштабы по осям X
 и Y - сколько пикселов
 * приходится на единицу длины по X и по Y
 */
-        double scaleX = getSize().getWidth() / (maxX - minX);
-        double scaleY = getSize().getHeight() / (maxY - minY);
+         scaleX = getSize().getWidth() / (maxX - minX);
+         scaleY = getSize().getHeight() / (maxY - minY);
 // Шаг 5 - Чтобы изображение было неискажённым - масштаб должен быть одинаков
 // Выбираем за основу минимальный
-
-        scale = Math.min(scaleX, scaleY);
+/// ///////!!!!!!
+       // scale = Math.min(scaleX, scaleY);
 // Шаг 6 - корректировка границ отображаемой области согласно выбранному масштабу
         if (scale==scaleX) {
 /* Если за основу был взят масштаб по оси X, значит по оси Y
@@ -142,6 +152,12 @@ minY
             maxX += xIncrement;
             minX -= xIncrement;
         }
+        System.out.println("После масштабирования");
+        System.out.println("minX: " + minX);
+        System.out.println("maxX: " + maxX);
+        System.out.println("minY: " + minY);
+        System.out.println("maxY: " + maxY);
+        System.out.println("Масштаб: " + scale);
 // Шаг 7 - Сохранить текущие настройки холста
         Graphics2D canvas = (Graphics2D) g;
         Stroke oldStroke = canvas.getStroke();
@@ -176,7 +192,7 @@ minY
 */
         GeneralPath graphics = new GeneralPath();
         for (int i=0; i<graphicsData.length; i++) {
-// Преобразовать значения (x,y) в точку на экране point
+// Преобразовать значения (x, y) в точку на экране point
             Point2D.Double point = xyToPoint(graphicsData[i][0],
                     graphicsData[i][1]);
             if (i>0) {
@@ -342,7 +358,7 @@ protected Point2D.Double xyToPoint(double x, double y) {
     double deltaX = x - minX;
 // Вычисляем смещение Y от точки верхней точки (maxY)
     double deltaY = maxY - y;
-    return new Point2D.Double(deltaX*scale, deltaY*scale);
+    return new Point2D.Double(deltaX*scaleX, deltaY*scaleY); /////////!!!!!
 }
     /* Метод-помощник, возвращающий экземпляр класса Point2D.Double
      * смещённый по отношению к исходному на deltaX, deltaY
